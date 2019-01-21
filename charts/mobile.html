@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.10.0/d3.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css"></link>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<!-- From: https://stackoverflow.com/questions/42515072/how-to-force-a-mobile-web-page-to-load-in-landscape -->
+<style>
+#container { display:block; }
+
+@media only screen and (orientation:portrait){
+
+  #container {
+
+   -webkit-transform: rotate(90deg);
+
+   -moz-transform: rotate(90deg);
+
+   -o-transform: rotate(90deg);
+
+   -ms-transform: rotate(90deg);
+
+   transform: rotate(90deg);
+
+  }
+
+}
+
+@media only screen and (orientation:landscape){
+
+  #container {
+
+  -webkit-transform: rotate(0deg);
+
+  -moz-transform: rotate(0deg);
+
+  -o-transform: rotate(0deg);
+
+  -ms-transform: rotate(0deg);
+
+  transform: rotate(0deg);
+
+   }
+}
+</style>
+</head>
+<body id="container">
+This is a chart calculator. You add parameters or fields in an expression to make a command to submit to be charted.  An example command is<br>
+<pre>pricecoins/XMG-BTC.csv mul pricecoins/btc-eur.csv 2018-01-01_00:00 2018-04-01_00:00</pre>
+In general, you have to specify a pricecoins or amountcoins, an operator, another price coins or number ... then an optional date range or timespan
+<br>
+<span>
+<input type="radio" name="preposition" value="before">
+Move Up
+<input type="radio" name="preposition" value="after" checked>
+Move Down
+<button id="pricecoins">Price Coins</button>
+<button id="amountcoins">Amount Coins</button>
+<button id="number">Number</button>
+<button id="operator">Operator</button>
+<button id="daterange">Date Range</button>
+<button id="timespan">Time Span</button>
+<br>
+<button id="remove">Remove Field</button>
+</span>
+<div id="params"></div>
+<button id="done">Done with Fields</button>
+<input onblur="query(event); return false;" type="text" value="" id="q">
+<button onclick="query(event); return false;">Submit</button>
+<button onclick="parse(); return false;">Parse</button><br>
+<pre id="query">pricecoins/XMG-BTC.csv diffuse 1d 2018-01-01_00:00 2018-04-01_00:00</pre>
+<script>
+
+function loadParameter(choose, type, param, inputType, get, value) {
+	var div = '<div class="ui-widget" id="div'+param+'"><label for="'+param+'">Choose '+choose+': </label><input id="'+param+'" type="'+inputType+'" value="'+value+'"></div>';
+	if(param === 0 || currentparam === 0) {
+		$("#params").append(div);        
+	} else if ($("input[name=preposition]:checked").val() === "after") {
+		$("#div"+currentparam).after(div);
+	} else {
+		$("#div"+currentparam).before(div);
+	}
+	currentparam = param;
+	$("#"+param).click(function() {
+		currentparam = param;
+	});
+
+	if (get) {
+		$.getJSON(type+".php", function (coins) {
+			coins = coins.map((coin) => { return type+"/"+coin; });
+			$( "#"+param ).autocomplete({
+			      source: coins
+			    });
+		});
+	}
+}
+
+var param = 0;
+var currentparam = 0;
+var submittedqueries = [];
+
+$("#number").click(function() {
+	loadParameter("a number", "number", param, "number", false, "300");
+	param++;
+});
+$("#operator").click(function() {
+	loadParameter("an operator", "operations", param, "text", true, "operations/");
+	param++;
+});
+$("#amountcoins").click(function() {
+	loadParameter("an amount coins", "amountcoins", param, "text", true, "amountcoins/");
+	param++;
+});
+$("#pricecoins").click(function() {
+	loadParameter("a price coins", "pricecoins", param, "text", true, "pricecoins/");
+	param++;
+});
+$("#daterange").click(function() {
+	var today = new Date();
+	var toYear = today.getYear()+1900;
+	var toMonth = today.getMonth()+1;
+	var toDay = today.getDay();
+	var fromYear = today.getYear()+1900;
+	var fromMonth = toMonth-3;
+	if (fromMonth < 1) {
+		fromMOnth+=12;
+		fromYear--;
+	}
+	var fromDay = toDay;
+	if (fromMonth === 2 && toDay > 28) {
+		fromDay = 28;
+	}
+	if ((fromMonth === 4 || fromMonth === 6 || fromMonth === 9 || fromMonth === 11) && toDay > 30) {
+		fromDay = 30;
+	}
+	var todate = toYear+"-"+(toMonth > 9 ? toMonth : "0"+toMonth)+"-"+(toDay > 9 ? toDay : "0"+toDay);
+	var totime = (today.getHours() > 9 ? today.getHours() : "0"+today.getHours())+":"+(today.getMinutes() > 9 ? today.getMinutes() : "0"+today.getMinutes());
+	var fromdate = fromYear+"-"+(fromMonth > 9 ? fromMonth : "0"+fromMonth)+"-"+(fromDay > 9 ? fromDay : "0"+fromDay);
+	var fromtime = (today.getHours() > 9 ? today.getHours() : "0"+today.getHours())+":"+(today.getMinutes() > 9 ? today.getMinutes() : "0"+today.getMinutes());
+	loadParameter("a from date", "fromdate", param, "date", false, fromdate);
+	param++;
+	loadParameter("a from time", "fromtime", param, "time", false, fromtime);
+	param++;
+	loadParameter("a to date", "todate", param, "date", false, todate);
+	param++;
+	loadParameter("a to time", "totime", param, "time", false, totime);
+	param++;
+});
+$("#timespan").click(function() {
+	loadParameter("a time span", "timespan", param, "text", false, "d0000-00-00 00:00");
+	param++;
+});
+$("#remove").click(function() {
+	var inputs = $(":input").get();
+	if ($("input[name=preposition]:checked").val() === "before") {
+		inputs = inputs.reverse();
+	}
+	var next = false;
+	var firstId = false;
+	$.each(inputs, function(i, self) {
+		var id = parseInt(self.id);
+		if (firstId === false && !isNaN(id)) {
+			// wraps around
+			firstId = id;
+		}
+		if (!next && !isNaN(id) && currentparam === id) {
+			next = true;
+		} else if (next && !isNaN(id)) {
+			$("#div"+currentparam).remove();
+			currentparam = id;
+			return false;
+		} else if (next) {
+			$("#div"+currentparam).remove();
+			currentparam = firstId;
+			return false;
+		}
+	});
+	if (!next) {
+		$("#div"+currentparam).remove();
+		currentparam = Math.max(currentparam-1, 0);
+	}
+	// Now look for any numbered id input
+	inputs = $(":input").get();
+	if ($("input[name=preposition]:checked").val() === "before") {
+		inputs = inputs.reverse();
+	}
+	firstId = false;
+	$.each(inputs, function(i, self) {
+		var id = parseInt(self.id);
+		if (firstId === false && !isNaN(id)) {
+			firstId = id;
+		}
+	});
+	if (!firstId) {
+		currentparam = 0;
+	}
+});
+$("#done").click(function() {
+	document.getElementById("q").value = '';
+	$(":input").each(function() {
+		if (!isNaN(parseInt(this.id))) {
+			document.getElementById("q").value += this.value+" ";
+		}
+	});
+	var q = document.getElementById("q").value.trim();
+	document.getElementById("q").value = q
+		.replace(/([0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]) ([0-9][0-9]:[0-9][0-9])/g, "$1_$2")
+		.replace(/operations\//g, "");
+});
+
+</script>
+	<div id="chart"></div>
+	<textarea id="data" cols="80" rows="24"></textarea>
+
+	<script>
+
+	// CONFIGURATION:  set server side handling script URL
+
+	var serverURL = "client.php";
+
+	function unpack(data, key) {
+	  return data.map(function(row) { return row[key]; });
+	}
+
+	function parse() {
+		$("#params").empty();
+		var currentparam = 0;
+		var param = 0;
+		var q = document.getElementById("q").value.trim();
+		var cli = q.split(/ /);
+		var m;
+		var fromfound = false;
+		for (var i in cli) {
+			if (cli[i].match(/^[0-9]+$/)) {
+				loadParameter("a number", "number", param, "number", false, cli[i]);
+				param++;
+			} else if (cli[i].match(/^pricecoins\/.*csv$/)) {
+				loadParameter("a price coins", "pricecoins", param, "text", true, cli[i]);
+				param++;
+			} else if (cli[i].match(/^amountcoins\/.*$/)) {
+				loadParameter("an amount coins", "amountcoins", param, "text", true, cli[i]);
+				param++;
+			} else if (cli[i].match(/^d([0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9])_([0-9][0-9]:[0-9][0-9])$/)) {
+				loadParameter("a time span", "timespan", param, "text", false, cli[i].replace(/_/, " "));
+				param++;
+			} else if (!fromfound && cli[i].match(/^([0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9])_([0-9][0-9]:[0-9][0-9])$/)) {
+				loadParameter("a from date", "fromdate", param, "date", false, cli[i].match(/^([0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9])_([0-9][0-9]:[0-9][0-9])$/)[1]);
+				param++;
+				loadParameter("a from time", "fromtime", param, "time", false, cli[i].match(/^([0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9])_([0-9][0-9]:[0-9][0-9])$/)[2]);
+				param++;
+				fromfound = true;
+			} else if (fromfound && cli[i].match(/^([0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9])_([0-9][0-9]:[0-9][0-9])$/)) {
+				loadParameter("a to date", "todate", param, "date", false, cli[i].match(/^([0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9])_([0-9][0-9]:[0-9][0-9])$/)[1]);
+				param++;
+				loadParameter("a to time", "totime", param, "time", false, cli[i].match(/^([0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9])_([0-9][0-9]:[0-9][0-9])$/)[2]);
+				param++;
+				fromfound = false;
+			} else {
+				loadParameter("an operator", "operator", param, "text", false, "operations/"+cli[i]);
+				param++;
+			}
+		}
+	}
+	function query(event) {
+		var q = document.getElementById("q").value.trim();
+		$("#query").text(q);
+		if (submittedqueries.indexOf(q) < 0) {
+			submittedqueries.push(q);
+			$( "#q").autocomplete({
+			      source: submittedqueries
+			});
+		}
+		var input = {};
+		var cli = q.split(/ /);
+		for (var c in cli) {
+			input[c] = cli[c];
+		}
+		$.get(serverURL, { arguments : q },
+		    function(results) {
+			var data = [];
+			var rows = results.split(/[\r\n]+/);
+			for (var r = 0; r < rows.length; r++) {
+				var columns = rows[r].split(/;/);
+				// move across the columns
+			    	for (var c = 0; c < columns.length; c+=2) {
+					var ave_date = new Date();
+					ave_date.setTime(parseInt(columns[0])*1000);
+					var row = { ave_date : ave_date, ave : columns[1]};
+					if (typeof columns[3] !== 'undefined') {
+						var min_date = new Date();
+						min_date.setTime(parseInt(columns[2])*1000);
+						row.min_date = min_date;
+						row.min = columns[3];
+					}
+					if (typeof columns[5] !== 'undefined') {
+						var max_date = new Date();
+						max_date.setTime(parseInt(columns[4])*1000);
+						row.max_date = max_date;
+						row.max = columns[5];
+					}
+					if (typeof columns[7] !== 'undefined') {
+						var med_date = new Date();
+						med_date.setTime(parseInt(columns[6])*1000);
+						row.med_date = med_date;
+						row.med = columns[7];
+					}
+					data.push(row);
+				}
+			}
+
+
+			var trace1 = {
+			  type: "scatter",
+			  mode: "lines",
+			  name: 'average',
+			  x: unpack(data, 'ave_date'),
+			  y: unpack(data, 'ave'),
+			  line: {color: '#000000'}
+			}
+			var traces = [trace1];
+
+			if (typeof data[0].min_date !== 'undefined') {
+				var trace2 = {
+				  type: "scatter",
+				  mode: "lines",
+				  name: 'minimum',
+				  x: unpack(data, 'min_date'),
+				  y: unpack(data, 'min'),
+				  line: {color: '#FF0000'}
+				}
+				traces.push(trace2);
+			}
+
+			if (typeof data[0].max_date !== 'undefined') {
+				var trace3 = {
+				  type: "scatter",
+				  mode: "lines",
+				  name: 'maximum',
+				  x: unpack(data, 'max_date'),
+				  y: unpack(data, 'max'),
+				  line: {color: '#00FF00'}
+				}
+				traces.push(trace3);
+			}
+
+			if (typeof data[0].med_date !== 'undefined') {
+				var trace4 = {
+				  type: "scatter",
+				  mode: "lines",
+				  name: 'median',
+				  x: unpack(data, 'med_date'),
+				  y: unpack(data, 'med'),
+				  line: {color: '#0000FF'}
+				}
+				traces.push(trace4);
+			}
+
+
+			var layout = {
+			  title: q,
+			  xaxis: {
+			    autorange: true,
+			    range: [data[0].ave_date, data[data.length-1].ave_date],
+			    rangeselector: {buttons: [
+				{
+				  count: 1,
+				  label: '1m',
+				  step: 'month',
+				  stepmode: 'backward'
+				},
+				{
+				  count: 6,
+				  label: '6m',
+				  step: 'month',
+				  stepmode: 'backward'
+				},
+				{step: 'all'}
+			      ]},
+			    rangeslider: {range: [data[0].ave_date, data[data.length-1].ave_date]},
+			    type: 'date'
+			  },
+			  yaxis: {
+			    autorange: true,
+			    range: [86.8700008333, 138.870004167],
+			    type: 'linear'
+			  }
+			};
+
+			var d3 = Plotly.d3;
+
+			var WIDTH_IN_PERCENT_OF_PARENT = 90,
+			    HEIGHT_IN_PERCENT_OF_PARENT = 90;
+
+			var gd3 = d3.select('#chart')
+			    .style({
+				width: WIDTH_IN_PERCENT_OF_PARENT + '%',
+				'margin-left': (100 - WIDTH_IN_PERCENT_OF_PARENT) / 2 + '%',
+
+				height: HEIGHT_IN_PERCENT_OF_PARENT + 'vh',
+				'margin-top': (100 - HEIGHT_IN_PERCENT_OF_PARENT) / 2 + 'vh'
+			    });
+
+			var gd = gd3.node();
+			Plotly.newPlot(gd, traces, layout);
+			document.getElementById("data").innerHTML = results;
+
+			window.onresize = function() {
+			    Plotly.Plots.resize(gd);
+			};
+
+		    }).fail(function(err) {
+			    alert("ERROR "+JSON.stringify(err));
+		    });
+
+		event.preventDefault();
+	}
+	</script>
+</body>
+</html>

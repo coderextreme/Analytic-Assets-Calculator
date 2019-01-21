@@ -1,0 +1,70 @@
+<head>
+  <!-- Plotly.js -->
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+<!-- Plotly chart will be drawn inside this DIV -->
+<div id="myDiv"></div>
+  <script>
+Plotly.d3.csv("LTC-BTC.csv", function(err, rows){
+
+function unpack(rows, key) {
+  return rows.map(function(row) { return type(row[key]); });
+}
+
+function type(d) {
+  var event = new Date();
+  event.setTime(d.date);
+  d.date = event;
+  d.price = +d.price;
+  return d;
+}
+
+
+
+var trace1 = {
+  type: "scatter",
+  mode: "lines",
+  name: 'LTC vs BTC',
+  x: unpack(rows, 'date'),
+  y: unpack(rows, 'price'),
+  line: {color: '#7F7F7F'}
+}
+
+var data = [trace1];
+
+var layout = {
+  title: 'Litecoin versus Bitcoin',
+  xaxis: {
+    autorange: true,
+    range: ['1970-01-18', '1970-01-18'],
+    rangeselector: {buttons: [
+        {
+          count: 1,
+          label: '1m',
+          step: 'month',
+          stepmode: 'backward'
+        },
+        {
+          count: 6,
+          label: '6m',
+          step: 'month',
+          stepmode: 'backward'
+        },
+        {step: 'all'}
+      ]},
+    rangeslider: {range: ['1970-01-18 03:00', '1970-01-18']},
+    type: 'date'
+  },
+  yaxis: {
+    autorange: true,
+    range: [0, 1],
+    type: 'linear'
+  }
+};
+
+Plotly.newPlot('myDiv', data, layout);
+});
+  </script>
+</body>
+</html>

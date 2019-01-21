@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.10.0/d3.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css"></link>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+</head>
+<body>
+<div id="chart"></div>
+<textarea id="data" cols="80" rows="24"></textarea>
+<div id="params"></div>
+<button id="done">Done with Fields</button>
+<input onblur="query(event); return false;" type="text" value="" id="q">
+<button onclick="query(event); return false;">Submit</button>
+<script>
+
+var allcoins = [];
+var setcoins = {};
+var pricecoins = {};
+var param = 0;
+var currentparam = 0;
+var submittedqueries = [];
+
+function getPriceCoins(callback) {
+	$.getJSON("pricecoins.php", function (coins) {
+		for (var c in coins) {
+			var coin = coins[c];
+			pricecoins[coin] = true;
+			coin = coin.replace(/bitfinex-(...)(...).csv/, "$1-$2.csv");
+			coin = coin.replace(/.[Cc][Ss][Vv]$/, "")
+			var cs = coin.split(/-/);
+			if (typeof setcoins[cs[0]] === 'undefined') {
+				setcoins[cs[0]] = {};
+			}
+			if (typeof setcoins[cs[1]] === 'undefined') {
+				setcoins[cs[1]] = {};
+			}
+			setcoins[cs[0]][cs[1]] = "forwards";
+			setcoins[cs[1]][cs[0]] = "reverse";
+		}
+		for (var c in setcoins) {
+			allcoins.push(c);
+		}
+		allcoins = allcoins.sort();
+		console.log(pricecoins);
+		callback(allcoins);
+	});
+}
+
+function loadParameter(choose, value) {
+	var div = '<div class="ui-widget" id="div'+param+'"><label for="'+param+'">Choose '+choose+': </label><input id="'+param+'" type="text" value="'+value+'"></div>';
+	if(param === 0) {
+		$("#params").append(div);        
+	} else if ($("#div"+currentparam).length === 0) {
+		$("#params").append(div);        
+	} else {
+		$("#div"+currentparam).after(div);
+	}
+	currentparam = param;
+	$("#"+param).click(function() {
+		currentparam = param;
+	});
+	param++;
+
+}
+
+loadParameter("a coin", "btc");
+loadParameter("a currency", "eur");
+
+getPriceCoins(function(allcoins) {
+	console.log(allcoins);
+	$("#0").autocomplete({
+	      source: allcoins
+	    });
+	$("#1").autocomplete({
+	      source: allcoins
+	    });
+});
+
+function computeCsv(cinc) {
+	var qy;
+	var pc = cinc[0]+"-"+cinc[1]+".csv";
+	var finex = "bitfinex-"+cinc[0].toLowerCase()+cinc[1].toLowerCase()+".csv";
+	if (pricecoins[pc]) {
+		qy = "pricecoins/"+pc;
+	} else if (pricecoins[finex]) {
+		qy = "pricecoins/"+finex;
+	}
+	return qy;
+}
+
+$("#done").click(function() {
+	document.getElementById("q").value = '';
+	$(":input").each(function() {
+		if (!isNaN(parseInt(this.id))) {
+			document.getElementById("q").value += this.value+" ";
+		}
+	});
+	var q = document.getElementById("q").value.trim();
+	var cinc = q.split(/ +/);
+	var qy = computeCsv(cinc);
+	if (typeof qy !== 'undefined') {
+		document.getElementById("q").value = qy;
+	} else {
+		var qy = computeCsv([cinc[1], cinc[0]]);
+		if (typeof qy !== 'undefined') {
+			document.getElementById("q").value = "1 div "+qy;
+		} else {
+			foundorder:
+			for (var c0 in setcoins[cinc[0]]) {
+				order0 = setcoins[cinc[0]][c0];
+				for (var c1 in setcoins[cinc[1]]) {
+					order1 = setcoins[cinc[1]][c1];
+					if (c0.toLowerCase() === c1.toLowerCase()) {
+						if (order0 === "forwards") {
+							var pc0 = computeCsv([cinc[0], c0]);
+							if (order1 === "forwards") {
+								var pc1 = computeCsv([cinc[1], c1]);
+								var op = "div";
+							} else {
+								var pc1 = computeCsv([c1, cinc[1]]);
+								var op = "mul";
+							}
+
+							document.getElementById("q").value = pc0+" "+op+" "+pc1;
+						} else {
+							var pc0 = computeCsv([c0, cinc[0]]);
+							if (order1 === "forwards") {
+								var pc1 = computeCsv([cinc[1], c1]);
+								var op = "div";
+								document.getElementById("q").value = "1 div "+pc0+" "+op+" "+pc1;
+							} else {
+								var pc1 = computeCsv([c1, cinc[1]]);
+								var op = "div";
+								document.getElementById("q").value = pc1+" "+op+" "+pc0;
+							}
+
+						}
+						break foundorder;
+					}
+				}
+			}
+		}
+	}
+
+});
+
+</script>
+	<script>
+
+	// CONFIGURATION:  set server side handling script URL
+
+	var serverURL = "client.php";
+
+	function unpack(data, key) {
+	  return data.map(function(row) { return row[key]; });
+	}
+
+	function query(event) {
+		var q = document.getElementById("q").value.trim();
+		$("#query").text(q);
+		if (submittedqueries.indexOf(q) < 0) {
+			submittedqueries.push(q);
+			$( "#q").autocomplete({
+			      source: submittedqueries
+			});
+		}
+		var input = {};
+		var cli = q.split(/ /);
+		for (var c in cli) {
+			input[c] = cli[c];
+		}
+		$("body").css("cursor", "progress");
+		$.get(serverURL, { arguments : q },
+		    function(results) {
+			var data = [];
+			var rows = results.split(/[\r\n]+/);
+			for (var r = 0; r < rows.length; r++) {
+				var columns = rows[r].split(/;/);
+				// move across the columns
+			    	for (var c = 0; c < columns.length; c+=2) {
+					var ave_date = new Date();
+					ave_date.setTime(parseInt(columns[0])*1000);
+					var row = { ave_date : ave_date, ave : columns[1]};
+					if (typeof columns[3] !== 'undefined') {
+						var min_date = new Date();
+						min_date.setTime(parseInt(columns[2])*1000);
+						row.min_date = min_date;
+						row.min = columns[3];
+					}
+					if (typeof columns[5] !== 'undefined') {
+						var max_date = new Date();
+						max_date.setTime(parseInt(columns[4])*1000);
+						row.max_date = max_date;
+						row.max = columns[5];
+					}
+					if (typeof columns[7] !== 'undefined') {
+						var med_date = new Date();
+						med_date.setTime(parseInt(columns[6])*1000);
+						row.med_date = med_date;
+						row.med = columns[7];
+					}
+					data.push(row);
+				}
+			}
+
+
+			var trace1 = {
+			  type: "scatter",
+			  mode: "lines",
+			  name: 'average',
+			  x: unpack(data, 'ave_date'),
+			  y: unpack(data, 'ave'),
+			  line: {color: '#000000'}
+			}
+			var traces = [trace1];
+
+			if (typeof data[0].min_date !== 'undefined') {
+				var trace2 = {
+				  type: "scatter",
+				  mode: "lines",
+				  name: 'minimum',
+				  x: unpack(data, 'min_date'),
+				  y: unpack(data, 'min'),
+				  line: {color: '#FF0000'}
+				}
+				traces.push(trace2);
+			}
+
+			if (typeof data[0].max_date !== 'undefined') {
+				var trace3 = {
+				  type: "scatter",
+				  mode: "lines",
+				  name: 'maximum',
+				  x: unpack(data, 'max_date'),
+				  y: unpack(data, 'max'),
+				  line: {color: '#00FF00'}
+				}
+				traces.push(trace3);
+			}
+
+			if (typeof data[0].med_date !== 'undefined') {
+				var trace4 = {
+				  type: "scatter",
+				  mode: "lines",
+				  name: 'median',
+				  x: unpack(data, 'med_date'),
+				  y: unpack(data, 'med'),
+				  line: {color: '#0000FF'}
+				}
+				traces.push(trace4);
+			}
+
+
+			var layout = {
+			  title: q,
+			  xaxis: {
+			    autorange: true,
+			    range: [data[0].ave_date, data[data.length-1].ave_date],
+			    rangeselector: {buttons: [
+				{
+				  count: 1,
+				  label: '1m',
+				  step: 'month',
+				  stepmode: 'backward'
+				},
+				{
+				  count: 6,
+				  label: '6m',
+				  step: 'month',
+				  stepmode: 'backward'
+				},
+				{step: 'all'}
+			      ]},
+			    rangeslider: {range: [data[0].ave_date, data[data.length-1].ave_date]},
+			    type: 'date'
+			  },
+			  yaxis: {
+			    autorange: true,
+			    range: [86.8700008333, 138.870004167],
+			    type: 'linear'
+			  }
+			};
+
+			var d3 = Plotly.d3;
+
+			var WIDTH_IN_PERCENT_OF_PARENT = 90,
+			    HEIGHT_IN_PERCENT_OF_PARENT = 90;
+
+			var gd3 = d3.select('#chart')
+			    .style({
+				width: WIDTH_IN_PERCENT_OF_PARENT + '%',
+				'margin-left': (100 - WIDTH_IN_PERCENT_OF_PARENT) / 2 + '%',
+
+				height: HEIGHT_IN_PERCENT_OF_PARENT + 'vh',
+				'margin-top': (100 - HEIGHT_IN_PERCENT_OF_PARENT) / 2 + 'vh'
+			    });
+
+			var gd = gd3.node();
+			Plotly.newPlot(gd, traces, layout);
+			document.getElementById("data").innerHTML = results;
+			$("body").css("cursor", "default");
+
+			window.onresize = function() {
+			    $("body").css("cursor", "progress");
+			    Plotly.Plots.resize(gd);
+			    $("body").css("cursor", "default");
+			};
+
+		    }).fail(function(err) {
+			    alert("ERROR "+JSON.stringify(err));
+		    });
+
+		event.preventDefault();
+	}
+	</script>
+</body>
+</html>

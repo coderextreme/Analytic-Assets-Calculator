@@ -1,0 +1,4 @@
+#!/usr/bin/fish
+set a (ls -lSr | grep -e '\.py$' | grep -e StackTree.py -e chartdata2less.py -e Stack.py -e LibCrygoldEVA.py -e csvMatch.py -e CursorNToken.py -e operations.py | awk '{print $9}' | tr '\n' ' ')
+set a vim -p $a -c NERDTree -c TagbarToggle
+eval $a

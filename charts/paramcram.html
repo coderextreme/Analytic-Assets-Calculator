@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	 <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css"></link>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+</head>
+<body>
+<span>
+<button id="sample">Add sampling period</button>
+<button id="pricecoins">Add Price Coins</button>
+<button id="amountcoins">Add Amount Coins</button>
+<button id="operator">Add Operator</button>
+<button id="date">Add Date</button>
+<button id="remove">Remove Parameter</button>
+</span>
+<script>
+
+function loadParameter(choose, type, param, get) {
+	$("body").append('<div class="ui-widget" id="div'+param+'"><label for="'+param+'">Choose '+choose+': </label><input id="'+param+'"></div>');
+
+	if (get) {
+		$.getJSON(type+".php", function (coins) {
+			coins = coins.map((coin) => { return type+"/"+coin; });
+			$( "#"+param ).autocomplete({
+			      source: coins
+			    });
+		});
+	}
+}
+
+var param = 0;
+
+$("#sample").click(function() {
+	loadParameter("a sampling period", "samplingperiod", param, false);
+	param++;
+});
+$("#operator").click(function() {
+	loadParameter("an operator", "operator", param, false);
+	param++;
+});
+$("#amountcoins").click(function() {
+	loadParameter("an amount coins", "amountcoins", param, true);
+	param++;
+});
+$("#pricecoins").click(function() {
+	loadParameter("a price coins", "pricecoins", param, true);
+	param++;
+});
+$("#date").click(function() {
+	loadParameter("a date", "date", param, false);
+	param++;
+});
+$("#remove").click(function() {
+	if (param > 0) {
+		param--;
+		$("#div"+param).remove();
+	}
+});
+
+</script>
+</body>
+</html>

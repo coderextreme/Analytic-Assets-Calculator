@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.10.0/d3.min.js"></script>
+	<script src="https://mcaule.github.io/d3-timeseries/dist/d3_timeseries.min.js"></script>
+	<script src="https://mcaule.github.io/d3-timeseries/dist/create-example-data.js"></script>
+	 <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+	<link rel="stylesheet" type="text/css" href="https://mcaule.github.io/d3-timeseries/dist/d3_timeseries.min.css">
+</head>
+<body>
+	<input onblur="query(); return false;" type="text" value="client.php" id="q">
+	<button onclick="query(); return false;">Submit</button><br>
+	<div id="chart"></div>
+	<div id="data"></div>
+
+	<script>
+
+	// CONFIGURATION:  set server side handling script URL
+
+	var serverURL = "client.php";
+
+	function handleAjaxError(xhr, status, error) {
+		alert(status+" "+error);
+	}
+
+	function query() {
+		var q = document.getElementById("q").value;
+		var cli = q.split(/ +/);
+	
+		$.ajax({
+		    url : serverURL,
+		    type : "POST",
+		    dataType : 'text',
+		    data : cli,
+		    success : function(results) {
+				var data = [];
+			        var rows = results.split(/[\r\n]+/);
+				for (var r = 0; r < rows.length; r++) {
+					var columns = rows[r].split(/;/);
+					// move across the columns
+			    		for (var c = 0; c < columns.length; c+=2) {
+						var event = new Date();
+						event.setTime(parseInt(columns[0])*1000);
+						var row = { date : event, n : columns[1]};
+						if (typeof columns[7] !== 'undefined') {
+							row.n = columns[1];
+							row.ci_up = columns[5];
+							row.ci_down = columns[3];
+							row.n3 = columns[7];
+						}
+						data.push(row);
+					}
+				}
+			    	$("#chart").empty();
+				var chart = d3_timeseries()
+				  .addSerie(data,{x:'date',y:'n'},{interpolate:'linear',color:"#a6cee3",label:"value"})
+				  .addSerie(data,{x:'date',y:'n3',ci_up:'ci_up',ci_down:'ci_down'},{interpolate:'monotone',dashed:true,color:"#a6cee3",label:"prediction"})
+				  .width(820)
+				chart('#chart')
+				document.getElementById("data").innerHTML = JSON.stringify(data);
+		    },
+		    error: handleAjaxError
+	   });
+	}
+	</script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.10.0/d3.min.js"></script>
+	<script src="https://mcaule.github.io/d3-timeseries/dist/d3_timeseries.min.js"></script>
+	<script src="https://mcaule.github.io/d3-timeseries/dist/create-example-data.js"></script>
+	<link rel="stylesheet" type="text/css" href="https://mcaule.github.io/d3-timeseries/dist/d3_timeseries.min.css">
+</head>
+<body>
+<div id="chart"></div>
+	<script>
+var data = createRandomData(80,[0,1000],0.01)
+// [{date:new Date('2013-01-01'),n:120,n3:200},...]
+var chart = d3_timeseries()
+    .addSerie(data,{x:'date',y:'n',diff:'n3'},{interpolate:'monotone',color:"#333"})
+    .width(820)
+chart('#chart')
+	</script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+{
+"date": {
+	"operands" : [
+		{
+		"operands" : [
+			{
+			"uri": "LTC-BTC.csv",
+			"column": "date",
+			"valuebegin": 1500299134,
+			"valueend": 1500300334
+
+			},
+			1000
+		],
+		"operator": "*"
+		}
+	],
+	"operator": "date"
+     },
+"price": {
+	"operands": [
+		{
+		"uri": "LTC-BTC.csv",
+		"column": "price",
+		"valuebegin": 1500299134,
+		"valueend": 1500300334
+		}
+	],
+	"operator": "copy"
+    },
+"derivative": {
+	"operands": [
+		{
+		"uri": "LTC-BTC.csv",
+		"column": "price",
+		"valuebegin": 1500299134,
+		"valueend": 1500300334
+		}
+	],
+	"operator": "reverse"
+    }
+}
