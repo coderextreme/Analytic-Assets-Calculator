@@ -56,6 +56,8 @@ values having a key valueS matrix
 
 + statistical calculations, oszillators and indicators are to be implemented and partly already available, but all in the level of doing it by formula in its essence, like real math
 
++ create your own personal index, such as Dow Jones, with your desired needs, compare your index, divide any index or asset by any other "time and price chainching thing", to compare both, to get your desired chart in a diagram
+
 There is no user friendly interface yet. For end users it is going to be better, not to know that there is a calculator like this behind, for what they want. End users is better to be given: a user interface, that does not overburden their mind. For example they better say they want the altcoin in the price of another altcoin instead to have to understand and know that this is just a division about one coin by another, whereat both must be given in the price bitcoin or in just the same price unit. This is like calculation in physics, because it is formulas with units.
 
 ## E Examples
