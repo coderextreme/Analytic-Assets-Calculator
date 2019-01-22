@@ -1,11 +1,21 @@
 # Analytic Assets Calculator
+
+## A Pictures or Results
+
+![alt text](/example-results/all-start-at-100-percent.png "all-start-at-100-percent")
+![alt text](/example-results/all-start-at-1-but-logscale-and-so-start-at-0.png "all-start-at-1-but-logscale-and-so-start-at-0.png")
+![alt text](/example-results/both-end-at-100-percent.png  diffuse2-operator.png "both-end-at-100-percent.png  diffuse2-operator.png")
+![alt text](/example-results/diffuse-operator.png "diffuse-operator.png")
+
+## B About
+
 Language: Python 3.6
 Status: pre alpha, bleeding edge
 
-## A. What it is:
+## C What it is:
 A Calculator for prices per timestamp
 
-## B. What it can do:
+## D What it can do:
 Give you a chart diagram with the price of oil cans in gold barren instead of
 a currency
 Give you a chart diagram with the price of any Altcoin in the price any other
@@ -24,7 +34,7 @@ it can be float numbers
 it can be lists of float numbers for calculation with the same amount of
 values having a key valueS matrix
 
-## C. Examples
+## E Examples
 
 examples for unix cli:
 `
@@ -242,7 +252,7 @@ stock-in-one-exchange.csv div same-stock-in-another-exchange.csv
 the resul is a chart that moves around the number 1, and shows differences of the same stock being traded at both exchanges
 
 
-## D. Bugs:
+## F Bugs:
 
 
 ### Bug:
@@ -318,7 +328,7 @@ shrunk because of diffuse,diffuse2 or max, min, avg, med.
 
 
 
-## E. Future Features:
+## G Future Features:
 
 
 + for avg and med:
