@@ -10,9 +10,9 @@
 ![alt text](/example-results/all-start-at-1-but-logscale-and-so-start-at-0.png "all-start-at-1-but-logscale-and-so-start-at-0.png")
 ### both-end-at-100-percent ( because calculation command makes it, like a calculator you give formulas )
 ![alt text](/example-results/both-end-at-100-percent.png "both-end-at-100-percent.png")
-### diffuse2-operator: (data points reducing) Maximum, Minimum, Median, Average
+### diffuse2-operator: (all moving) Maximum, Minimum, Median, Average
 ![alt text](/example-results/diffuse2-operator.png "diffuse2-operator.png")
-### diffuse-operator: (all moving) Maximum, Minimum, Median, Average
+### diffuse-operator: (data points reducing) Maximum, Minimum, Median, Average
 ![alt text](/example-results/diffuse-operator.png "diffuse-operator.png")
 
 ## B About
