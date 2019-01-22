@@ -18,6 +18,7 @@
 ## B About
 
 Language: Python 3.6
+
 Status: pre alpha, bleeding edge
 
 ## C What it is:
@@ -32,12 +33,14 @@ A Calculator for prices per timestamp, allowing:
 ## D What it can do:
 Give you a chart diagram with the price of oil cans in gold barren instead of
 a currency
+
 Give you a chart diagram with the price of any Altcoin in the price any other
 Altcoin instead having it in Bitcoin
 And it can do a lot more!
 
 
 Output: Linux GUI, text numbers stdout, text numbers for Web, web diagram
+
 Input: one cli ( command line interace ) command
 every syntax word must be seperated by whitespace, also brackets
 
