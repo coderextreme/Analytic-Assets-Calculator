@@ -2,10 +2,15 @@
 
 ## A Pictures or Results
 
+### all-start-at-100-percent
 ![alt text](/example-results/all-start-at-100-percent.png "all-start-at-100-percent")
+### all-start-at-1-but-logscale-and-so-start-at-0
 ![alt text](/example-results/all-start-at-1-but-logscale-and-so-start-at-0.png "all-start-at-1-but-logscale-and-so-start-at-0.png")
+### both-end-at-100-percent
 ![alt text](/example-results/both-end-at-100-percent.png "both-end-at-100-percent.png")
+### diffuse2-operator
 ![alt text](/example-results/diffuse2-operator.png "diffuse2-operator.png")
+### diffuse-operator
 ![alt text](/example-results/diffuse-operator.png "diffuse-operator.png")
 
 ## B About
