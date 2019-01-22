@@ -197,7 +197,8 @@ operators for calculations:
 
 some explanations:
 diffuse and diffuse2 make one chart to 4 charts in one diagram, by reducing
-the data points. example command: file.csv diffuse 4h
+the data points. example command: 
+`file.csv diffuse 4h`
 this makes that every data point in the time span of 4 hours will be made to
 one data point and 4 values: the max,min,median,average in those 4 hours.
 So we have less data, even we have 4 instead of 1 chart in one diagram
@@ -213,6 +214,11 @@ max,min,avg,med, begin, end
 
 med is median, avg is average, end is the really last, and begin the really
 first value, 
+example commands:
+`bla.csv med 10h`
+`oh.csv add blub.csv avg 2d`
+`yeay.csv log 4 diffuse2 1m`
+
 ### 6th example:
 `
 XMR-BTC.csv mul btc-eur.csv div \( XMR-BTC.csv mul btc-eur.csv begin 1d \) mul 100
