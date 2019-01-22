@@ -159,41 +159,41 @@ the result is both things multplied by 20
 
 operators for calculations:
 
-+ add 
++ add adds 2 things, numbers, key-valueS matrices, lists of numbers
 
-+ mul 
++ mul same for multiply
 
-+ div 
++ div  division
 
-+ sub 
++ sub sustract
 
-+ log 
++ log caclulate any logarithm for log scale, you could even senselessly use 2 matrices instead a matrix and a number as operands
 
-+ root 
++ root like squareroot, if you do "bla.csv root 2" an laternative to log scale
 
-+ med 
++ med moving median
 
-+ avg 
++ avg moving average
 
-+ max 
++ max maximum of bunches of time set by given time span
 
-+ min 
++ min same for minimum
 
-+ aswell 
++ aswell things behind and in front of aswell are to things, so it is possible to have more than one graph for one diagram, and continue calculation after having more than one thing, mean to calculate more than one thing as next when putting a calculation as next after "aswell"
 
-+ diffuse 
++ diffuse making 4 charts out of one, but with much reduced data points, given by your time range
 
-+ diffuse2 
++ diffuse2 same as diffuse, but all values are now moving things, so not less datapoints
 
-+ pow 
++ pow the power of whatsoever
 
-+ begin 
++ begin give us the first value in our time range
 
-+ end
++ end give us the last
 
-+ vari 
++ vari variance ( statistics )
 
-+ stddevi
++ stddevi standard deviation of statistics
 
 some explanations:
 diffuse and diffuse2 make one chart to 4 charts in one diagram, by reducing
