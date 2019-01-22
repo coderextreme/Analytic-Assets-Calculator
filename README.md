@@ -215,8 +215,11 @@ max,min,avg,med, begin, end
 med is median, avg is average, end is the really last, and begin the really
 first value, 
 example commands:
+
 `bla.csv med 10h`
+
 `oh.csv add blub.csv avg 2d`
+
 `yeay.csv log 4 diffuse2 1m`
 
 ### 6th example:
