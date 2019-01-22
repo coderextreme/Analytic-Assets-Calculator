@@ -2,15 +2,17 @@
 
 ## A Pictures or Results
 
-### all-start-at-100-percent
+### Mostly Crypto Currencies Altcoins and Bitcoin, but that's unimportent, because it can be everything, also gold barren, oil cans, food prices, any ressources on the market, stock prices, several indexes of stocks or your created index of anything you want to create an index of
+
+### all-start-at-100-percent ( because calculation command makes it, like a calculator you give formulas )
 ![alt text](/example-results/all-start-at-100-percent.png "all-start-at-100-percent")
 ### all-start-at-1-but-logscale-and-so-start-at-0
 ![alt text](/example-results/all-start-at-1-but-logscale-and-so-start-at-0.png "all-start-at-1-but-logscale-and-so-start-at-0.png")
-### both-end-at-100-percent
+### both-end-at-100-percent ( because calculation command makes it, like a calculator you give formulas )
 ![alt text](/example-results/both-end-at-100-percent.png "both-end-at-100-percent.png")
-### diffuse2-operator
+### diffuse2-operator: (data points reducing) Maximum, Minimum, Median, Average
 ![alt text](/example-results/diffuse2-operator.png "diffuse2-operator.png")
-### diffuse-operator
+### diffuse-operator: (all moving) Maximum, Minimum, Median, Average
 ![alt text](/example-results/diffuse-operator.png "diffuse-operator.png")
 
 ## B About
@@ -19,7 +21,13 @@ Language: Python 3.6
 Status: pre alpha, bleeding edge
 
 ## C What it is:
-A Calculator for prices per timestamp
+A Calculator for prices per timestamp, allowing:
+
++ unlimited formulas with brackets
+
++ unlimited amount calculations in one formula, because this means at the same amount:
+
++ unlimited graphs in a diagram (but yet no parallel computing)
 
 ## D What it can do:
 Give you a chart diagram with the price of oil cans in gold barren instead of
@@ -33,12 +41,19 @@ Output: Linux GUI, text numbers stdout, text numbers for Web, web diagram
 Input: one cli ( command line interace ) command
 every syntax word must be seperated by whitespace, also brackets
 
-Calculation objects can be a key value matrix: key is timestamp and value is a
++ Calculation objects can be a key value matrix: key is timestamp and value is a
 price
-it can be a matrix with one key and multiple values
-it can be float numbers
-it can be lists of float numbers for calculation with the same amount of
+
++ it can be a matrix with one key and multiple values
+
++ it can be float numbers
+
++ it can be lists of float numbers for calculation with the same amount of
 values having a key valueS matrix
+
++ statistical calculations, oszillators and indicators are to be implemented and partly already available, but all in the level of doing it by formula in its essence, like real math
+
+There is no user friendly interface yet. For end users it is going to be better, not to know that there is a calculator like this behind, for what they want. End users is better to be given: a user interface, that does not overburden their mind. For example they better say they want the altcoin in the price of another altcoin instead to have to understand and know that this is just a division about one coin by another, whereat both must be given in the price bitcoin or in just the same price unit. This is like calculation in physics, because it is formulas with units.
 
 ## E Examples
 
