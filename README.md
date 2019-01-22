@@ -158,7 +158,7 @@ calculate multiple calculations the same time:
 the result is both things multplied by 20
 
 operators for calculations:
-`
+
 + add 
 
 + mul 
@@ -190,8 +190,11 @@ operators for calculations:
 + begin 
 
 + end
-vari stddevi
-`
+
++ vari 
+
++ stddevi
+
 some explanations:
 diffuse and diffuse2 make one chart to 4 charts in one diagram, by reducing
 the data points. example command: file.csv diffuse 4h
