@@ -159,41 +159,41 @@ the result is both things multplied by 20
 
 operators for calculations:
 
-+ add adds 2 things, numbers, key-valueS matrices, lists of numbers
++ **add** - adds 2 things, numbers, key-valueS matrices, lists of numbers
 
-+ mul same for multiply
++ **mul** - same for multiply
 
-+ div  division
++ **div** -  division
 
-+ sub sustract
++ **sub** - sustract
 
-+ log caclulate any logarithm for log scale, you could even senselessly use 2 matrices instead a matrix and a number as operands
++ **log** - caclulate any logarithm for log scale, you could even senselessly use 2 matrices instead a matrix and a number as operands
 
-+ root like squareroot, if you do "bla.csv root 2" an laternative to log scale
++ **root** - like squareroot, if you do "bla.csv root 2" an laternative to log scale
 
-+ med moving median
++ **med** - moving median
 
-+ avg moving average
++ **avg** - moving average
 
-+ max maximum of bunches of time set by given time span
++ **max** - maximum of bunches of time set by given time span
 
-+ min same for minimum
++ **min** - same for minimum
 
-+ aswell things behind and in front of aswell are to things, so it is possible to have more than one graph for one diagram, and continue calculation after having more than one thing, mean to calculate more than one thing as next when putting a calculation as next after "aswell"
++ **aswell** - things behind and in front of aswell are to things, so it is possible to have more than one graph for one diagram, and continue calculation after having more than one thing, mean to calculate more than one thing as next when putting a calculation as next after "aswell"
 
-+ diffuse making 4 charts out of one, but with much reduced data points, given by your time range
++ **diffuse** - making 4 charts out of one, but with much reduced data points, given by your time range
 
-+ diffuse2 same as diffuse, but all values are now moving things, so not less datapoints
++ **diffuse2** - same as diffuse, but all values are now moving things, so not less datapoints
 
-+ pow the power of whatsoever
++ **pow** - the power of whatsoever
 
-+ begin give us the first value in our time range
++ **begin** - give us the first value in our time range
 
-+ end give us the last
++ **end** - give us the last
 
-+ vari variance ( statistics )
++ **vari** - variance ( statistics )
 
-+ stddevi standard deviation of statistics
++ **stddevi** - standard deviation of statistics
 
 some explanations:
 diffuse and diffuse2 make one chart to 4 charts in one diagram, by reducing
