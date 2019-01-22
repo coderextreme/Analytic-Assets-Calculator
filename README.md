@@ -159,7 +159,37 @@ the result is both things multplied by 20
 
 operators for calculations:
 `
-add mul div sub log root med avg max min aswell diffuse diffuse2 pow begin end
++ add 
+
++ mul 
+
++ div 
+
++ sub 
+
++ log 
+
++ root 
+
++ med 
+
++ avg 
+
++ max 
+
++ min 
+
++ aswell 
+
++ diffuse 
+
++ diffuse2 
+
++ pow 
+
++ begin 
+
++ end
 vari stddevi
 `
 some explanations:
