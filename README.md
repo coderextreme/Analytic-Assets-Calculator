@@ -30,6 +30,8 @@ A Calculator for prices per timestamp, allowing:
 
 + unlimited graphs in a diagram (but yet no parallel computing)
 
++ huge amounts of nonexisting markets can be calculated by combining other markets together
+
 ## D What it can do:
 Give you a chart diagram with the price of oil barrels in gold barren instead of
 a currency
