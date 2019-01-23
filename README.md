@@ -1,14 +1,14 @@
-# Analytic Assets Calculator
+﻿# Analytic Assets Calculator
 
 ## A Pictures or Results
 
-### Mostly Crypto Currencies Altcoins and Bitcoin, but that's unimportent, because it can be everything, also gold barren, oil cans, food prices, any ressources on the market, stock prices, several indexes of stocks or your created index of anything you want to create an index of
+### Mostly crypto Currencies altcoins and Bitcoin, but that's unimportant, because it can be everything, also gold barren, oil barrels, food prices, any commodities or resources on the market, stock prices, several indexes of stocks or your created index of anything you want to create an index of
 
-### all-start-at-100-percent ( because calculation command makes it, like a calculator you give formulas )
+### all-start-at-100-percent ( because calculation command makes it, like a graphing calculator )
 ![alt text](/example-results/all-start-at-100-percent.png "all-start-at-100-percent")
 ### all-start-at-1-but-logscale-and-so-start-at-0
 ![alt text](/example-results/all-start-at-1-but-logscale-and-so-start-at-0.png "all-start-at-1-but-logscale-and-so-start-at-0.png")
-### both-end-at-100-percent ( because calculation command makes it, like a calculator you give formulas )
+### both-end-at-100-percent ( because calculation command makes it, like a graphing calculator )
 ![alt text](/example-results/both-end-at-100-percent.png "both-end-at-100-percent.png")
 ### diffuse2-operator: (all moving) Maximum, Minimum, Median, Average
 ![alt text](/example-results/diffuse2-operator.png "diffuse2-operator.png")
@@ -31,18 +31,18 @@ A Calculator for prices per timestamp, allowing:
 + unlimited graphs in a diagram (but yet no parallel computing)
 
 ## D What it can do:
-Give you a chart diagram with the price of oil cans in gold barren instead of
+Give you a chart diagram with the price of oil barrels in gold barren instead of
 a currency
 
-Give you a chart diagram with the price of any Altcoin in the price any other
-Altcoin instead having it in Bitcoin
+Give you a chart diagram with the price of any altcoin in the price any other
+altcoin instead having it in Bitcoin
 And it can do a lot more!
 
 
 Output: Linux GUI, text numbers stdout, text numbers for Web, web diagram
 
-Input: one cli ( command line interace ) command
-every syntax word must be seperated by whitespace, also brackets
+Input: one cli ( command line interface ) command
+every syntax word must be separated by white space, also brackets
 
 + Calculation objects can be a key value matrix: key is timestamp and value is a
 price
@@ -52,11 +52,11 @@ price
 + it can be float numbers
 
 + it can be lists of float numbers for calculation with the same amount of
-values having a key valueS matrix
+values having a key value**s*** matrix
 
-+ statistical calculations, oszillators and indicators are to be implemented and partly already available, but all in the level of doing it by formula in its essence, like real math
++ statistical calculations, oscillators and indicators are to be implemented and partly already available, but all in the level of doing it by formula in its essence, like real math
 
-+ create your own personal index, such as Dow Jones, with your desired needs, compare your index, divide any index or asset by any other "time and price chainching thing", to compare both, to get your desired chart in a diagram
++ create your own personal index, such as Dow Jones, with your desired needs, compare your index, divide any index or asset by any other "time and price changing thing", to compare both, to get your desired chart in a diagram
 
 There is no user friendly interface yet. For end users it is going to be better, not to know that there is a calculator like this behind, for what they want. End users is better to be given: a user interface, that does not overburden their mind. For example they better say they want the altcoin in the price of another altcoin instead to have to understand and know that this is just a division about one coin by another, whereat both must be given in the price bitcoin or in just the same price unit. This is like calculation in physics, because it is formulas with units.
 
@@ -83,7 +83,7 @@ that means the currency or whatsoever asset has the price of 10.5 whatsoever.
 
 instead of the last parameter "chart", also possible is:
 "stdout" or "none"
-instead of "d0000-00-10_00:00" it is also possilbe:
+instead of "d0000-00-10_00:00" it is also possible:
 "2019-01-01_10:10 2019-01-11_10:10" that is also 10 days, but in the past!
 instead of
 `
@@ -129,7 +129,7 @@ Monero-in-Bitcoin.csv div Litecoin-in-Bitcoin.csv
 This is also like calculating in physics.
 (monero / bitcoin ) / ( litecoin / bitcoin)
 = monero / litecoin
-the resulting chart diagram is going to be the price of monero in the price of litecoin
+the resulting chart diagram is going to be the price of Monero in the price of Litecoin
 
 ### 4th example
 `
@@ -155,21 +155,21 @@ calculate multiple calculations the same time:
 `
 ( price-of-something.csv aswell price-of-somethingelse.csv ) mul 20
 `
-the result is both things multplied by 20
+the result is both things multiplied by 20
 
 operators for calculations:
 
-+ **add** - adds 2 things, numbers, key-valueS matrices, lists of numbers
++ **add** - adds 2 things, numbers, key-value**s** matrices, lists of numbers
 
 + **mul** - same for multiply
 
 + **div** -  division
 
-+ **sub** - sustract
++ **sub** - subtract
 
-+ **log** - caclulate any logarithm for log scale, you could even senselessly use 2 matrices instead a matrix and a number as operands
++ **log** - calculate any logarithm for log scale, you could even senselessly use 2 matrices instead a matrix and a number as operands
 
-+ **root** - like squareroot, if you do "bla.csv root 2" an laternative to log scale
++ **root** - like square root, if you do "bla.csv root 2" an alternative to log scale
 
 + **med** - moving median
 
@@ -273,9 +273,9 @@ We can compare everything with everything and anything with anything.
 
 ### 12th example:
 `
-OilCanprice.csv div goldbarrenPrice.csv
+OilBarrelprice.csv div goldbarrenPrice.csv
 `
-the resulting chart is the price of oil cans, not in a currency, but in the price of
+the resulting chart is the price of oil barrels, not in a currency, but in the price of
 gold barren!
 
 ### 13th example:
@@ -298,7 +298,7 @@ one values list is divided by a value
 second values list is divided by a second value in the list of two values
 
 the rest can be well understood, as I described similar things before, and
-with some mathetmatical knowlege.
+with some mathematical knowledge.
 So we can have more than one calculation in one formula
 if we divide or do whatever with the same amount of things (here 2 things), like in this
 example with this division: the result will remain in two things
@@ -317,7 +317,7 @@ the whatsoever stock not in its price of its currency, but in the price of score
 `
 stock-in-one-exchange.csv div same-stock-in-another-exchange.csv
 `
-the resul is a chart that moves around the number 1, and shows differences of the same stock being traded at both exchanges
+the result is a chart that moves around the number 1, and shows differences of the same stock being traded at both exchanges
 
 
 ## F Bugs:
@@ -338,7 +338,7 @@ There it is not near the middle, but in the end - thats totally wrong!
 merging 2 charts to one chart to be just the combination of 2 charts in one
 diagram with only one list of timestamps and not anymore 2 list of timestamps,
 is not solved well, if both lists of timestamps are too different, than the
-result can become very wrong and weired.
+result can become very wrong and weird.
 
 #### When does this bug happen:
 when diffuse,diffuse2,max,min,avg,med shall be combined with "aswell" with
@@ -379,7 +379,7 @@ time;value1;value2
 
 We could also have always lists of timestamps, that are always equal enough,
 so that we do not need to solve such situations, but we also want diagrams
-that have not so many datapoints, to have less data, for multiple reasons,
+that have not so many data points, to have less data, for multiple reasons,
 like speed, network traffic, and so on.
 
 Now we are going to have 2 or more merging algorithms.
@@ -401,7 +401,7 @@ shrunk because of diffuse,diffuse2 or max, min, avg, med.
 
 + for avg and med:
 It the ending and beginning shall be not cut off.
-This feature is already implemented, but caclulation could be done better.
+This feature is already implemented, but calculation could be done better.
 For a moving average or moving median, the ending and beginning, shall be
 painted even though less data points for calculation, as everywhere in the
 middle. For example at second data point, we have only 2 data points for
@@ -442,13 +442,13 @@ to 10 it is a+b*x*x*x and from time 11 to 15 it is just a.
 + why this: that way we can create chart diagrams that can be more easily be
 understood instead to have lots of flickering in any chart diagram. We can
 have a chart diagram that looks really tidy and simple, and without any noise,
-if we have a chart diagram, that consists of a set of forms, every timespan
-another particular form, and the range of one timespan can be calculated by
-Skewnesses with probabilit mathematics.
+if we have a chart diagram, that consists of a set of forms, every time span
+another particular form, and the range of one time span can be calculated by
+Skewnesses with probability mathematics.
 
 + self created top 1-10 or 5-15, whatsoever of any altcoin market or stock
 market. We just add the market capitalization of any altcoin or stock. The
-market capitalization is calcluated be multiplying amount of all coins with
+market capitalization is calculated be multiplying amount of all coins with
 the price of one coin.
 
 + automatic bracket creation, so that multiplication is always calculated
@@ -459,8 +459,8 @@ before adding something a + ( b * c ), that "aswell" is like (calulation1) aswel
 is prepared to is going to work, but there is also prepared to have as much as
 you want, but still that buggy, that it does not work yet.
 
-+ Names of Altcoins shall become also an input, so that it can be displayed in
-the output, or when the top 10 Types of Altcoins shall be listed for one day,
++ Names of altcoins shall become also an input, so that it can be displayed in
+the output, or when the top 10 Types of altcoins shall be listed for one day,
 the name shall also be output, so that the name can be an input, to can be
 output
 
@@ -470,8 +470,8 @@ value databases like lmdb, sql is not needed.
 + Caching of already calculated charts and diagrams, so that a new calculation
 calculates only new values, that have had not been calculated yet.
 
-+ when a part of a formular have had already been calculated in the whole
-formular, but is still needed in another part of the formular, than it does
++ when a part of a formula have had already been calculated in the whole
+formula, but is still needed in another part of the formulae, than it does
 not need to be calculated more than once, but can be cached while calculating.
 For example if you want the chart itself but also its moving median and moving
 average, than you do need the chart 3 times, but loading it form database 3
@@ -479,17 +479,17 @@ times is not fast, or need to calculate it 3 times is not needed, for example
 if the chart is calculated by div or mul of 2 other charts
 
 + multi core or multi cpu calculation: the abstract syntax tree of a long
-fromular with brackets can be devided for different cores or cpus
+formula with brackets can be divided for different cores or cpus
 
 + multi core or multi cpu calculation: the calculation of one operation on one
-chart diagram can be splitted in that many parts, that many cpu cores exist.
+chart diagram can be spitted in that many parts, that many cpu cores exist.
 
 + faster merging algorithm for combining 2 or more chart diagrams into one.
 The whole program is that very slow now, because the algorithm is very precise
-and bad at speed for combining two matrixes of chart diagram data points, and
+and bad at speed for combining two matrices of chart diagram data points, and
 because csv files are used and not a database.
 
-+ all indicators and oszillators that can be used also for stocks ( there are maybe around 100 that exist )
++ all indicators and oscillators that can be used also for stocks ( there are maybe around 100 that exist )
 
 + UI for: any mobile phone, any smart watch, TV, website, Desktop Widget like
 for KDE Plasma
@@ -498,11 +498,19 @@ for KDE Plasma
 
 + make it possible to compare branches of branches of branches of industries,
 like real tree structures: Calculate not only with numbers, lists or matrices,
-but also with trees, so that complex comparisions between industries of
-diffrent countries can be achieved.
+but also with trees, so that complex comparisons between industries of
+different countries can be achieved.
 
 + operation add number to every timestamp: needed for MACD, nothing more needed but this feature and the right formula and you get the MACD
 
 + better have everything able to be calculated that Probability theory mathematics consists of
 
 + like moving average or moving median or moving quantile, lets make anything be a moving whatsoever, that is technically possible, even it does not make sense, but we will see if it will make sense, though!
+
+## H Future Vision
+
++ We don‘t need money anymore, because now we know how to trade everything with everything.
+
++ Any markets work more intelligent and smoother, because we are understanding them much better. Everyone can decide wiser, what to buy and what to sell, may it be food or whatsoever. This can improve the economy of nations.
+
++ Watching you stocks chart diagrams on you smartwatch, is going to be a better entertainment as any horror movie.
